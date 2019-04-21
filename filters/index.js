@@ -34,7 +34,7 @@ export default {
           }
         }
       } else {
-        return num
+        return Number(num)
       }
     }
   }

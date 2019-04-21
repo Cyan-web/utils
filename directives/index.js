@@ -40,5 +40,50 @@ export default {
       el.removeEventListener('click', el.__vueClickOutside__)
       delete el.__vueClickOutside__
     }
+  },
+  drag: {
+    inserted: (el, a, vm) => {
+      let x = 0
+      let y = 0
+      let px = 0
+      let py = 0
+      let nx = 0
+      let ny = 0
+      let onDrag = false
+      el.ontouchstart = function (e) {
+        x = e.touches[0].clientX
+        y = e.touches[0].clientY
+        px = el.offsetLeft
+        py = el.offsetTop
+        let cH = document.documentElement.clientHeight - 88
+        let cW = document.body.clientWidth - 44
+        onDrag = true
+        el.style.transition = 'none'
+        el.ontouchmove = function (e) {
+          if (onDrag) {
+            nx = e.touches[0].clientX + px - x
+            ny = e.touches[0].clientY + py - y
+            el.style.left = (nx < 0 ? '.15rem' : nx > cW ? `calc(${cW}px - .15rem)` : `${nx}px`)
+            el.style.top = (ny < 100 ? '100px' : ny > cH ? `${cH}px` : `${ny}px`)
+          }
+        }
+        el.ontouchend = function (e) {
+          el.style.transition = 'all 0.4s ease'
+          let half = document.body.clientWidth / 2
+          if (el.style.left || el.style.right) {
+            if (nx < (half - 22)) {
+              el.style.left = '.15rem'
+              vm.context.childClass.left = 1
+            } else {
+              el.style.left = `calc(${cW}px - .15rem)`
+              vm.context.childClass.left = 0
+            }
+          }
+          if (onDrag) {
+            onDrag = false
+          }
+        }
+      }
+    }
   }
 }
