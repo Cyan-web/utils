@@ -16,14 +16,9 @@ export const timeParser = <T extends string | number>(time: T, format?: string):
             const hour = timeDate.getHours()
             const minute = timeDate.getMinutes()
             const second = timeDate.getSeconds()
-            
+
             const formatMap: Map<string, string> = new Map([
                 [ 'YYYY', year + '' ],
-                [ 'M', month + '' ],
-                [ 'D', day + '' ],
-                [ 'h', hour + '' ],
-                [ 'm', minute + '' ],
-                [ 's', second + '' ],
                 [ 'MM', `0${month}`.substr(-2) ],
                 [ 'DD', `0${day}`.substr(-2) ],
                 [ 'hh', `0${hour}`.substr(-2) ],
@@ -32,7 +27,7 @@ export const timeParser = <T extends string | number>(time: T, format?: string):
             ])
 
             // 有字符串模板按照模板格式返回
-            if (format && /(YYYY|MM|M|DD|D|hh|h|mm|m|ss|s)/.test(format)) {
+            if (format && /(YYYY|MM|DD|hh|mm|ss)/.test(format)) {
                 let formatStr = format
 
                 formatMap.forEach((value, key) => {
