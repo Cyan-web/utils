@@ -1,0 +1,303 @@
+
+
+    /** @function twoNoRepeat pk10 冠亚 */
+    twoNoRepeat (arr) {
+        let count = 0
+        const validArr = arr.filter(e => e.length)
+        if (validArr.length === 2) {
+            const a1 = arr[0]
+            const a2 = arr[1]
+            for (let i1 = 0; i1 < a1.length; i1 ++) {
+                for (let i2 = 0; i2 < a2.length; i2++) {
+                    if (a1[i1] !== a2[i2]) {
+                        count ++
+                    }
+                }
+            }
+        }
+        return count
+    }
+
+    /** @function threeNoRepeat pk10 前三 */
+    threeNoRepeat (arr) {
+        let count = 0
+        const validArr = arr.filter(e => e.length)
+        if (validArr.length === 3) {
+            const a1 = arr[0]
+            const a2 = arr[1]
+            const a3 = arr[2]
+            for (let i1 = 0; i1 < a1.length; i1 ++) {
+                for (let i2 = 0; i2 < a2.length; i2 ++) {
+                    for (let i3 = 0; i3 < a3.length; i3 ++) {
+                        if (a1[i1] !== a2[i2] && a1[i1] !== a3[i3] && a2[i2] !== a3[i3]) {
+                            count ++
+                        }
+                    }
+                }
+            }
+        }
+        return count
+    }
+
+    /** @function fourNoRepeat pk10 前四 */
+    fourNoRepeat (arr) {
+        let count = 0
+        const validArr = arr.filter(e => e.length)
+        if (validArr.length === 4) {
+            const a1 = arr[0]
+            const a2 = arr[1]
+            const a3 = arr[2]
+            const a4 = arr[3]
+            for (let i1 = 0; i1 < a1.length; i1 ++) {
+                for (let i2 = 0; i2 < a2.length; i2 ++) {
+                    for (let i3 = 0; i3 < a3.length; i3 ++) {
+                        for (let i4 = 0; i4 < a4.length; i4 ++) {
+                            if (
+                                a1[i1] !== a2[i2] &&
+                                a1[i1] !== a3[i3] &&
+                                a1[i1] !== a4[i4] &&
+                                a2[i2] !== a3[i3] &&
+                                a2[i2] !== a4[i4] &&
+                                a3[i3] !== a4[i4]
+                            ) {
+                                count ++
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return count
+    }
+
+    /** @function fiveNoRepeat pk10 前五 */
+    fiveNoRepeat (arr) {
+        let count = 0
+        const validArr = arr.filter(e => e.length)
+        if (validArr.length === 5) {
+            const a1 = arr[0]
+            const a2 = arr[1]
+            const a3 = arr[2]
+            const a4 = arr[3]
+            const a5 = arr[4]
+            for (let i1 = 0; i1 < a1.length; i1 ++) {
+                for (let i2 = 0; i2 < a2.length; i2 ++) {
+                    for (let i3 = 0; i3 < a3.length; i3 ++) {
+                        for (let i4 = 0; i4 < a4.length; i4 ++) {
+                            for (let i5 = 0; i5 < a5.length; i5 ++) {
+                                if (
+                                    a1[i1] !== a2[i2] &&
+                                    a1[i1] !== a3[i3] &&
+                                    a1[i1] !== a4[i4] &&
+                                    a1[i1] !== a5[i5] &&
+                                    a2[i2] !== a3[i3] &&
+                                    a2[i2] !== a4[i4] &&
+                                    a2[i2] !== a5[i5] &&
+                                    a3[i3] !== a4[i4] &&
+                                    a3[i3] !== a5[i5] &&
+                                    a4[i4] !== a5[i5]
+                                ) {
+                                    count ++
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return count
+    }
+
+    /** @function multipleFreePick */
+    multipleFreePick (arr, multiple = false) {
+        return !multiple ? arr.map(a => a.length).reduce((a, b) => a + b) : arr.map(a => a.length).reduce((a, b) => a * b)
+    }
+
+    /** @function combination 组合类型计算 */
+    combination (arr, bit, repeat = true) {
+        let total = 1
+        let base = 1
+        let length = arr[0] ? arr[0].length : arr
+        for (let index = 0; index < bit; index++) {
+            total *= (length - index) > 0 ? (length - index) : 0
+            base *= (bit - index)
+        }
+        return repeat ? total / base : total / base * 2
+    }
+
+    /** @function ssc3xDirectSum 时时彩三星直选和值 */
+    ssc3xDirectSum (arr) {
+        const sxzxhz = [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 63, 69, 73, 75, 75, 73, 69, 63, 55, 45, 36, 28, 21, 15, 10, 6, 3, 1 ]
+        return arr[0].length ? arr[0].map(e => sxzxhz[e]).reduce((a, b) => a + b) : 0
+    }
+
+    /** @function ssc2xDirectSum 时时彩二星直选和值 */
+    ssc2xDirectSum (arr) {
+        const exzxhz = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 ]
+        return arr[0].length ? arr[0].map(e => exzxhz[e]).reduce((a, b) => a + b) : 0
+    }
+
+    /** @function ssx3xGroupSum 时时彩三星组选和值 */
+    ssx3xGroupSum (arr) {
+        const sxzuxhz = [ 1, 2, 2, 4, 5, 6, 8, 10, 11, 13, 14, 14, 15, 15, 14, 14, 13, 11, 10, 8, 6, 5, 4, 2, 2, 1 ]
+        return arr[0].length ? arr[0].map(e => sxzuxhz[e - 1]).reduce((a, b) => a + b) : 0
+    }
+
+    /** @function ssc2xGroupSum 时时彩三星组选和值 */
+    ssc2xGroupSum (arr) {
+        const exzuxhz = [ 1, 1, 2, 2, 3, 3, 4, 4, 5, 4, 4, 3, 3, 2, 2, 1, 1 ]
+        return arr[0].length ? arr[0].map(e => exzuxhz[e - 1]).reduce((a, b) => a + b) : 0
+    }
+
+    /** @function ssx3xDirectSpan 时时彩三星直选跨度 */
+    ssx3xDirectSpan (arr) {
+        const sxkd = [ 10, 54, 96, 126, 144, 150, 144, 126, 96, 54 ]
+        return arr[0].length ? arr[0].map(e => sxkd[e]).reduce((a, b) => a + b) : 0
+    }
+
+    /** @function ssx2xDirectSpan 时时彩二星直选跨度 */
+    ssx2xDirectSpan (arr) {
+        const exkd = [ 10, 18, 16, 14, 12, 10, 8, 6, 4, 2 ]
+        return arr[0].length ? arr[0].map(e => exkd[e]).reduce((a, b) => a + b) : 0
+    }
+
+    /** @function ssx3xGroupCourage 时时彩三星组选包胆 */
+    ssx3xGroupCourage (arr) {
+        return arr[0].length ? 54 : 0
+    }
+
+    /** @function ssc2xGroupCourage 时时彩二星组选包胆 */
+    ssc2xGroupCourage (arr) {
+        return arr[0].length ? 9 : 0
+    }
+
+    /** @function sscCombination 时时彩组选 【数字】 */
+    sscCombination (arr, bit, whichArr = 0) {
+        let count = 0
+        const validArr = arr.filter(e => e.length)
+
+        if (validArr.length > 1) {
+            const a1 = validArr[0]
+            const a2 = validArr[1]
+            const forArr = validArr[whichArr]
+            const anotherArr = whichArr === 0 ? [ ...a2 ] : [ ...a1 ]
+
+            if (forArr.length && anotherArr.length) {
+                for (let index = 0; index < forArr.length; index ++) {
+                    const combinationTotalLength = anotherArr.includes(forArr[index]) ? anotherArr.length - 1 : anotherArr.length
+                    count += this.combination(combinationTotalLength, bit)
+                }
+            }
+        }
+        return count
+    }
+
+    /** @function sscSelectAnyTwo 时时彩任选二 */
+    sscSelectAnyTwo (arr, type = 'double') {
+        let count = 0
+        const validArr = arr.filter(e => e.length)
+
+        if (validArr.length > 1) {
+            validArr.forEach((e, i, a) => {
+                for (let index = i + 1; index < a.length; index ++) {
+                    switch (type) {
+                        case 'double':
+                            count += a[i].length * a[index].length
+                            break
+                        case 'directSum':
+                            count += (this.ssc2xDirectSum([ a[i] ]) + this.ssc2xDirectSum([ a[index] ])) / 2
+                            break
+                        case 'group':
+                            count += (this.combination([ a[i] ], 2) + this.combination([ a[index] ], 2)) / 2
+                            break
+                        case 'groupSum':
+                            count += (this.ssc2xGroupSum([ a[i] ]) + this.ssc2xGroupSum([ a[index] ])) / 2
+                            break
+                    }
+                }
+            })
+            return count
+        }
+
+        return 0
+    }
+
+    /** @function sscSelectAny 时时彩任选三和四 直选复式 */
+    sscSelectAny (arr, type = 3) {
+        let count = 0
+        const validArr = arr.filter(e => e.length)
+        const a1l = arr[0] ? arr[0].length : 0
+        const a2l = arr[1] ? arr[1].length : 0
+        const a3l = arr[2] ? arr[2].length : 0
+        const a4l = arr[3] ? arr[3].length : 0
+        const a5l = arr[4] ? arr[4].length : 0
+
+        if (validArr.length > 2 && type === 3) {
+            count += a1l * a2l * a3l
+            count += a1l * a2l * a4l
+            count += a1l * a2l * a5l
+            count += a1l * a3l * a4l
+            count += a1l * a3l * a5l
+            count += a1l * a4l * a5l
+
+            count += a2l * a3l * a4l
+            count += a2l * a3l * a5l
+            count += a2l * a4l * a5l
+
+            count += a3l * a4l * a5l
+            return count
+        }
+
+        if (validArr.length > 3 && type === 4) {
+            count += a1l * a2l * a3l * a4l
+            count += a1l * a2l * a3l * a5l
+            count += a1l * a3l * a4l * a5l
+            count += a1l * a3l * a4l * a5l
+
+            count += a2l * a3l * a4l * a5l
+        }
+        return count
+    }
+
+    /** @function sscSelectAnyThree 时时彩任选三 直选和值 组选复式 组六复式 组选和值 */
+    sscSelectAnyThree (arr, type) {
+        const validArr = arr.filter(e => e.length)
+        if (validArr.length > 2) {
+            const checked = validArr.find(e => e.length)
+            const multiple = this.combination(validArr.length, 3)
+            switch (type) {
+                case 'directSum':
+                    return this.ssc3xDirectSum([ checked ]) * multiple
+                case 'zu3':
+                    return this.combination([ checked ], 2, false) * multiple
+                case 'zu6':
+                    return this.combination([ checked ], 3) * multiple
+                case 'groupSum':
+                    return this.ssx3xGroupSum([ checked ]) * multiple
+            }
+        }
+        return 0
+    }
+
+    /** @function sscSelectAnyFour 时时彩任选四组选24 组选6 */
+    sscSelectAnyFour (arr, type) {
+        const validArr = arr.filter(e => e.length)
+        if (validArr.length > 3) {
+            const checked = validArr.find(e => e.length)
+            const multiple = this.combination(validArr.length, 4)
+            console.log(this.combination([ checked ], 4), multiple)
+            switch (type) {
+                case 'zux24':
+                    return this.combination([ checked ], 4) * multiple
+                case 'zux6':
+                    return this.combination([ checked ], 2) * multiple
+            }
+        }
+        return 0
+    }
+
+    /** @function k3Sum 快三和值 */
+    k3Sum (arr) {
+        const k3hz = [ 0, 0, 0, 1, 1, 2, 3, 4, 5, 6, 6, 6, 6, 5, 4, 3, 2, 1, 1, 0, 0, 0 ]
+        return arr[0].length ? arr[0].map(e => k3hz[e]).reduce((a, b) => a + b) : 0
+    }
