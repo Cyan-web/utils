@@ -1,0 +1,74 @@
+/**
+ * @function utils_compressUpload 压缩上传
+ * @param originalName 源文件名
+ * @param compressName 压缩后的文件名
+ * @return Promise<FormData>
+ */
+export const utils_compressUpload = (originalName = 'file', compressName = 'compressFile') => {
+    return new Promise((resolve, reject) => {
+        // 创建 input 并设置需要上传的属性
+        const inputEle = document.createElement('input')
+        inputEle.type = 'file'
+        inputEle.accept = 'image/*'
+        inputEle.multiple = false
+    
+        // 触发点击
+        inputEle.click()
+        inputEle.onchange = async function() {
+            if (this.files && this.files.length) {
+                // 获取源文件
+                const file = this.files[0]
+    
+                // 检测大小
+                if (file.size > 1024 * 1024 * 5) {
+                    reject()
+                    throw new Error('图片大小超过5m')
+                } else {
+                    // gif 不做处理直接返回
+                    if (file.type.includes('gif')) {
+                        const formData = new FormData()
+                        formData.append(originalName, file)
+                        formData.append(compressName, file)
+                        resolve(formData) 
+                    } else {
+                        // 使用 FileReader 读取源文件
+                        const render = new FileReader()
+                        render.readAsDataURL(file)
+                        render.onload = function(e) {
+                            // 使用 Image 加载图片获取源图高宽
+                            const image = new Image()
+                            image.src = e.target.result
+                            image.onload = function() {
+                                // 源图高宽
+                                const originalWidth = this.width
+                                const originalHeight = this.height
+        
+                                // 创建 canvas
+                                const canvasEle = document.createElement('canvas')
+                                const context = canvasEle.getContext('2d')
+
+                                // 缩放比例 .6
+                                const compressPercent = originalWidth / originalHeight
+                                const compressWidth = originalWidth * .6
+                                const compressHeight = compressWidth / compressPercent
+
+                                // canvas 设置压缩后的图片
+                                canvasEle.width = compressWidth
+                                canvasEle.height = compressHeight
+                                context.drawImage(image, 0, 0, compressWidth, compressHeight)
+
+                                // 压缩图片转译
+                                canvasEle.toBlob(function(blob) {
+                                    const formData = new FormData()
+                                    formData.append(compressName, blob)
+                                    formData.append(originalName, file)
+                                    resolve(formData)
+                                }, 'image/jpeg')
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    })
+}
