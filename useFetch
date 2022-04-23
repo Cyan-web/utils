@@ -1,0 +1,48 @@
+import { ref } from 'vue'
+
+import { api_fetch } from '@/apis'
+
+/**
+ * @function useFetch
+ * @description 请求函数封装 hooks
+ * @param url String 请求地址
+ * @param params Object 请求参数s
+ * @param manual Boolean 是否初始化请求
+ * @param onSuccess Function 请求成功回调
+ * @param formatResult Function 请求成功后数据格式化函数
+ * @param initialData Object 请求数据初始值
+ * @param method String 请求方法
+ * @param onErr Function 错误回调
+ * @return loading Boolean 数据加载状态
+ * @return response Any 接口响应数据
+ * @return getData Function 根据参数获取数据函数
+ * @return onRefresh Function 保留初始参数进行刷新
+ * */
+export const useFetch = ({ url, params = {}, manual, onSuccess, formatResult, initialData = null, method, onErr }) => {
+    const loading = ref(false),
+        response = ref(initialData)
+
+    const getData = async(params = {}) => {
+        loading.value = true
+        try {
+            const res = await api_fetch({ url, params, method })
+
+            response.value = formatResult ? formatResult(res) : res
+
+            onSuccess && onSuccess(response.value, params)
+        } catch (e) {
+            onErr?.(e)
+        } finally {
+            loading.value = false
+        }
+    }
+
+    if (!manual) getData(params)
+
+    return {
+        loading,
+        response,
+        getData,
+        onRefresh: () => getData(params)
+    }
+}
