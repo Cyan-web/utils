@@ -2,6 +2,20 @@ import { ref } from 'vue'
 
 import { api_fetch } from '@/apis'
 
+import axios from '@/utils/axios.interceptors'
+export * from './user'
+
+export const api_fetch = async({ url, params = {}, method = 'post', pageLoading }) => {
+    try {
+        // if (pageLoading) store.commit('common/SET_STATE', { routerLoading: true })
+        return method === 'post' ? await axios.post(url, params) : await axios.get(url, { params })
+    }
+    finally {
+        // if (pageLoading) store.commit('common/SET_STATE', { routerLoading: false })
+    }
+}
+
+
 /**
  * @function useFetch
  * @description 请求函数封装 hooks
